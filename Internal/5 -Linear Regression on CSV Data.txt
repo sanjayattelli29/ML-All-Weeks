@@ -1,0 +1,101 @@
+Here’s the **full code** in one go for your exam (Simple + Multiple Linear Regression with evaluation):
+
+---
+
+### ✅ **FULL PYTHON CODE (Linear Regression on CSV Data)**
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+
+# Step 1: Load CSV Data
+data = pd.read_csv('data.csv')
+print(data.head())
+
+# Step 2: Simple Linear Regression (using X1)
+X_simple = data[['X1']]
+y = data['Y']
+
+model_simple = LinearRegression()
+model_simple.fit(X_simple, y)
+
+y_pred_simple = model_simple.predict(X_simple)
+
+print("\n--- Simple Linear Regression ---")
+print("Coefficient:", model_simple.coef_)
+print("Intercept:", model_simple.intercept_)
+print("MSE:", mean_squared_error(y, y_pred_simple))
+print("R² Score:", r2_score(y, y_pred_simple))
+
+# Plotting
+plt.scatter(X_simple, y, color='blue')
+plt.plot(X_simple, y_pred_simple, color='red')
+plt.title('Simple Linear Regression')
+plt.xlabel('X1')
+plt.ylabel('Y')
+plt.show()
+
+# Step 3: Multiple Linear Regression (X1, X2, X3)
+X_multi = data[['X1', 'X2', 'X3']]
+y = data['Y']
+
+model_multi = LinearRegression()
+model_multi.fit(X_multi, y)
+
+y_pred_multi = model_multi.predict(X_multi)
+
+print("\n--- Multiple Linear Regression ---")
+print("Coefficients:", model_multi.coef_)
+print("Intercept:", model_multi.intercept_)
+print("MSE:", mean_squared_error(y, y_pred_multi))
+print("R² Score:", r2_score(y, y_pred_multi))
+
+# Step 4: Optional - Train/Test Split for Evaluation
+X_train, X_test, y_train, y_test = train_test_split(X_multi, y, test_size=0.2, random_state=42)
+
+model_split = LinearRegression()
+model_split.fit(X_train, y_train)
+
+y_test_pred = model_split.predict(X_test)
+
+print("\n--- Test Set Evaluation ---")
+print("Test MSE:", mean_squared_error(y_test, y_test_pred))
+print("Test R² Score:", r2_score(y_test, y_test_pred))
+```
+
+---
+
+### ▶️ **How to Run It (Step-by-Step)**
+
+1. 📁 **Prepare `data.csv`** like:
+
+```
+X1,X2,X3,Y
+1,2,3,10
+2,3,4,12
+3,4,5,14
+4,5,6,16
+5,6,7,18
+```
+
+> Save this file in the same folder as your `.py` script.
+
+2. ✅ **Install required libraries (if not installed):**
+
+```bash
+pip install pandas scikit-learn matplotlib
+```
+
+3. 🐍 **Run the Python script:**
+
+```bash
+python your_script_name.py
+```
+
+---
+
+Let me know if you need a `.csv` file download or version for Jupyter Notebook.

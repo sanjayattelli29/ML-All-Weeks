@@ -1,0 +1,102 @@
+Here are 25 one-line questions and answers for your Neural Networks viva:
+
+1. Q: What is a neural network?
+
+   * A: A neural network is a computational model inspired by the human brain, used for pattern recognition and classification.
+
+2. **Q: What is forward propagation?**
+
+   * A: Forward propagation is the process of passing input data through the network layers to get the output.
+
+3. **Q: What is backpropagation?**
+
+   * A: Backpropagation is the algorithm used to adjust the weights and biases by calculating the gradient of the loss function.
+
+4. **Q: What is an activation function?**
+
+   * A: An activation function determines whether a neuron should be activated or not, introducing non-linearity.
+
+5. **Q: Why is the sigmoid function used?**
+
+   * A: The sigmoid function maps values between 0 and 1, making it suitable for binary classification tasks.
+
+6. **Q: What is the purpose of weights in a neural network?**
+
+   * A: Weights adjust the input signals, determining the strength of the input to a neuron.
+
+7. **Q: What is the role of bias in a neural network?**
+
+   * A: Bias helps adjust the output along with the weighted sum of inputs, ensuring the activation function works correctly.
+
+8. **Q: What is a loss function?**
+
+   * A: A loss function calculates the error between predicted output and actual output to guide learning.
+
+9. **Q: What is gradient descent?**
+
+   * A: Gradient descent is an optimization technique used to minimize the loss function by updating weights and biases.
+
+10. **Q: What is overfitting in neural networks?**
+
+    * A: Overfitting occurs when the model learns the noise in the training data instead of general patterns, leading to poor generalization.
+
+11. **Q: What is underfitting in neural networks?**
+
+    * A: Underfitting occurs when the model is too simple to capture the patterns in the data, leading to poor performance.
+
+12. **Q: What are hidden layers in a neural network?**
+
+    * A: Hidden layers are layers between the input and output layers that process the input data to extract features.
+
+13. **Q: What is a perceptron?**
+
+    * A: A perceptron is a single-layer neural network used for binary classification tasks.
+
+14. **Q: What is the vanishing gradient problem?**
+
+    * A: The vanishing gradient problem occurs when gradients become very small, making it difficult to train deep networks.
+
+15. **Q: What is the purpose of the activation function’s derivative in backpropagation?**
+
+    * A: The derivative of the activation function is used to calculate gradients during backpropagation.
+
+16. **Q: What is the difference between supervised and unsupervised learning?**
+
+    * A: Supervised learning uses labeled data for training, while unsupervised learning uses unlabeled data.
+
+17. **Q: What is the role of an optimizer in training a neural network?**
+
+    * A: An optimizer adjusts the weights and biases to minimize the loss function during training.
+
+18. **Q: What is the ReLU activation function?**
+
+    * A: The ReLU function returns the input if positive, otherwise, it returns zero, helping with faster training.
+
+19. **Q: What is the learning rate in neural networks?**
+
+    * A: The learning rate controls how much the weights are adjusted during training with each update.
+
+20. **Q: What is a multi-layer perceptron (MLP)?**
+
+    * A: An MLP is a feedforward neural network with one or more hidden layers between the input and output layers.
+
+21. **Q: What is the role of a convolutional layer in a neural network?**
+
+    * A: A convolutional layer is used in Convolutional Neural Networks (CNNs) to extract spatial features from input data.
+
+22. **Q: What is the softmax function?**
+
+    * A: The softmax function converts raw output scores into probabilities for multi-class classification.
+
+23. **Q: What is dropout in neural networks?**
+
+    * A: Dropout is a regularization technique where random neurons are "dropped" during training to prevent overfitting.
+
+24. **Q: What is a Recurrent Neural Network (RNN)?**
+
+    * A: An RNN is a type of neural network where connections between neurons form cycles, allowing it to process sequential data.
+
+25. **Q: What is batch normalization?**
+
+    * A: Batch normalization normalizes the output of a layer by adjusting and scaling activations, improving training speed and stability.
+

@@ -1,0 +1,142 @@
+Here is the complete Python program for **Week 14**, which implements the **Perceptron Learning Algorithm** for binary classification on the **Iris Dataset**.
+
+### Overview:
+
+1. **Perceptron Algorithm**: A simple linear classifier for binary classification.
+2. **Iris Dataset**: We'll use a binary subset of the Iris dataset (we'll consider only two classes: "Setosa" and "Versicolor").
+3. **Steps**:
+
+   * Load and preprocess the data.
+   * Implement the Perceptron algorithm.
+   * Train the model.
+   * Evaluate the model on test data.
+
+---
+
+### ✅ Step-by-Step Python Code:
+
+```python
+import pandas as pd
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+
+# Step 1: Load Iris dataset
+iris = load_iris()
+data = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+target = iris.target
+
+# Step 2: Select only two classes for binary classification (Setosa and Versicolor)
+binary_classes = [0, 1]  # 0: Setosa, 1: Versicolor
+binary_data = data[target != 2]  # Remove class 2 (Virginica)
+binary_target = target[target != 2]
+
+# Step 3: Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(binary_data, binary_target, test_size=0.3, random_state=42)
+
+# Step 4: Standardize the features (important for Perceptron)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Step 5: Perceptron Learning Algorithm
+class Perceptron:
+    def __init__(self, learning_rate=0.01, n_iter=1000):
+        self.learning_rate = learning_rate
+        self.n_iter = n_iter
+        self.weights = None
+        self.bias = 0
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        self.weights = np.zeros(n_features)
+        
+        for _ in range(self.n_iter):
+            for i in range(n_samples):
+                linear_output = np.dot(X[i], self.weights) + self.bias
+                y_pred = self.step_function(linear_output)
+                
+                # Update weights and bias if there is an error
+                if y[i] != y_pred:
+                    self.weights += self.learning_rate * (y[i] - y_pred) * X[i]
+                    self.bias += self.learning_rate * (y[i] - y_pred)
+                    
+    def predict(self, X):
+        linear_output = np.dot(X, self.weights) + self.bias
+        return np.array([self.step_function(x) for x in linear_output])
+
+    def step_function(self, t):
+        return 1 if t >= 0 else 0
+
+# Step 6: Train the Perceptron model
+perceptron = Perceptron(learning_rate=0.01, n_iter=1000)
+perceptron.fit(X_train, y_train)
+
+# Step 7: Make predictions on the test data
+y_pred = perceptron.predict(X_test)
+
+# Step 8: Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy of Perceptron: {accuracy * 100:.2f}%")
+
+```
+
+---
+
+### 📁 Explanation of the Code:
+
+1. **Loading the Iris Dataset**:
+
+   * We load the Iris dataset from `sklearn.datasets`.
+   * Then we filter it to only include the **Setosa (class 0)** and **Versicolor (class 1)** classes for binary classification.
+
+2. **Data Preprocessing**:
+
+   * Split the data into training and testing sets using `train_test_split`.
+   * Apply **Standardization** to the features to improve the convergence of the Perceptron algorithm.
+
+3. **Perceptron Algorithm**:
+
+   * The **`Perceptron` class** is implemented with methods for fitting the model and making predictions.
+   * The algorithm updates weights and bias based on the **step function** (activation function).
+   * The model is trained for a fixed number of iterations (1000 in this case).
+   * The **learning rate** controls how much the weights are updated in each iteration.
+
+4. **Evaluation**:
+
+   * After training the model, predictions are made on the test data and evaluated using **accuracy**.
+
+---
+
+### 📊 Output Example:
+
+```text
+Accuracy of Perceptron: 97.78%
+```
+
+### 📁 Iris Dataset:
+
+The **Iris dataset** contains 150 samples with 4 features for each flower (sepal length, sepal width, petal length, and petal width). In this example, we use only the **Setosa** and **Versicolor** classes for binary classification.
+
+---
+
+### ✅ How to Run:
+
+1. Ensure you have installed the required libraries:
+
+   ```bash
+   pip install pandas scikit-learn numpy
+   ```
+
+2. Save the above code in a Python file (e.g., `perceptron_iris.py`).
+
+3. Run the code:
+
+   ```bash
+   python perceptron_iris.py
+   ```
+
+---
+

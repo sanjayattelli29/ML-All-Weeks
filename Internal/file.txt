@@ -1,0 +1,44 @@
+cursor download : 
+
+
+
+week 5 : Linear Regression on CSV Data
+
+
+week 6 : KNN CLASSIFIER (with prediction report)
+
+
+week 7 : ID3 Algorithm-Decision Tree
+
+week 8 : feature selection and extraction techniques (LDA & PCA) using Python.
+
+WEEK 9: Naive Bayes Classifier (Full Code with Accuracy)
+
+Week 10 : complete Python program to implement Support Vector Machine (SVM) for binary classification using a CSV file.
+
+Week 11 : code to implement Regularized Logistic Regression using a sample training dataset from a CSV file.
+
+WEEK 12: Ensemble Learning (Bagging, Boosting, Random Forest)
+
+
+WEEK 13:
+i. Write a program to perform Clustering using K-means after applying PCA and Determining the value of K using the Elbow method.
+
+
+ii. Write a program to build a model to perform hierarchical clustering.like i need in detailed in depth please
+
+Week13_AB.ipynb
+
+
+
+WEEK 14:
+i. Write a program to implement the Perceptron Learning algorithm for binary classification on the iris dataset.
+
+ii. Write a program to demonstrate a simple neural network that has one input layer,one hidden layer, and one output layer, which includes the forward and backward propagation algorithms for training the neural network
+
+Week_14A.ipynb
+
+
+viva Q&a
+
+

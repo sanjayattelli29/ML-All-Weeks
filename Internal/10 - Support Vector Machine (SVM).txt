@@ -1,0 +1,107 @@
+Here's your **Week 10** complete Python program to implement **Support Vector Machine (SVM)** for **binary classification** using a CSV file. This includes:
+
+✅ What you’ll get:
+
+* Works with any **2-class (binary)** dataset.
+* Includes **linear**, **polynomial**, and **RBF** kernels.
+* Shows accuracy and predictions.
+* Uses **scikit-learn SVM**.
+
+---
+
+## ✅ WEEK 10: Full Python Code for SVM with Multiple Kernels
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
+
+# Step 1: Load dataset
+filename = "binary_data.csv"  # Change to your CSV
+data = pd.read_csv(filename)
+print("First 5 rows:\n", data.head())
+
+# Step 2: Separate features (X) and target (y)
+X = data.iloc[:, :-1]  # All columns except last
+y = data.iloc[:, -1]   # Last column is target
+
+# Step 3: Encode target labels if needed (e.g., "Yes"/"No" -> 1/0)
+if y.dtype == 'object':
+    le = LabelEncoder()
+    y = le.fit_transform(y)
+
+# Step 4: Ensure binary classification
+if len(set(y)) != 2:
+    raise ValueError("This is not a binary classification problem. Ensure only 2 classes.")
+
+# Step 5: Split data into train and test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Step 6: Define and evaluate multiple SVM kernels
+kernels = ['linear', 'poly', 'rbf']
+for kernel in kernels:
+    print(f"\n----- Kernel: {kernel.upper()} -----")
+    model = SVC(kernel=kernel)
+    model.fit(X_train, y_train)
+    
+    # Predictions
+    y_pred = model.predict(X_test)
+    
+    # Accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy * 100:.2f}%")
+    
+    # Predictions detail
+    print("\nPredictions:")
+    for i in range(len(y_test)):
+        actual = y_test.tolist()[i]
+        predicted = y_pred[i]
+        status = "✅ Correct" if actual == predicted else "❌ Wrong"
+        print(f"Sample {i+1} -> Actual: {actual}, Predicted: {predicted} => {status}")
+```
+
+---
+
+### 📁 Sample `binary_data.csv` Format:
+
+> Your CSV must have **numerical features** and a **binary label (0/1 or Yes/No)**
+
+```
+feature1,feature2,feature3,label
+2.1,3.5,1.4,Yes
+1.9,2.9,1.1,No
+2.2,3.1,1.6,Yes
+...
+```
+
+---
+
+### 🧪 How to Run
+
+1. Put your dataset in the same folder as this script.
+2. Install dependencies:
+
+```bash
+pip install pandas scikit-learn
+```
+
+3. Run it:
+
+```bash
+python svm_binary_classifier.py
+```
+
+---
+
+### 🧠 SVM Kernel Types Explained:
+
+| Kernel | Use When…                               |
+| ------ | --------------------------------------- |
+| linear | Data is linearly separable              |
+| poly   | Data needs polynomial decision boundary |
+| rbf    | Data has complex, nonlinear boundary    |
+
+---
+

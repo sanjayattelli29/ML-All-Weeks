@@ -1,0 +1,51 @@
+✅ PART II: Hierarchical Clustering (Agglomerative)
+✅ PART II: Hierarchical Clustering (Dendrogram + Agglomerative)
+python
+Copy
+Edit
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import AgglomerativeClustering
+
+# Step 1: Reuse scaled data from above
+# Or use original: data.values
+linked = linkage(scaled_data, method='ward')
+
+# Step 2: Plot Dendrogram
+plt.figure(figsize=(10, 6))
+dendrogram(linked,
+           orientation='top',
+           distance_sort='descending',
+           show_leaf_counts=False)
+plt.title("Dendrogram for Hierarchical Clustering")
+plt.xlabel("Samples")
+plt.ylabel("Euclidean Distance")
+plt.show()
+
+# Step 3: Apply Agglomerative Clustering
+n_clusters = 3  # Based on dendrogram
+hier_model = AgglomerativeClustering(n_clusters=n_clusters, affinity='euclidean', linkage='ward')
+hier_labels = hier_model.fit_predict(scaled_data)
+
+# Step 4: Visualize Clusters (2D PCA View)
+plt.figure(figsize=(6,5))
+plt.scatter(pca_data[:,0], pca_data[:,1], c=hier_labels, cmap='Accent', s=50)
+plt.title(f"Hierarchical Clustering with {n_clusters} clusters")
+plt.xlabel("PCA 1")
+plt.ylabel("PCA 2")
+plt.grid(True)
+plt.show()
+📁 Sample CSV Format (clustering_data.csv)
+python-repl
+Copy
+Edit
+feature1,feature2,feature3
+2.5,3.4,1.2
+3.1,2.8,1.9
+2.8,3.0,1.5
+...
+Ensure your file has only numeric features (no labels for unsupervised learning).
+
+📊 Summary
+Part	Technique	Purpose
+Part I	KMeans + PCA + Elbow	Fast clustering + K optimization
+Part II	Hierarchical Clustering	Tree-like grouping (dendrogram)

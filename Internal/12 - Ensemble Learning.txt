@@ -1,0 +1,109 @@
+Here’s the **full in-depth Week 12 Python program** to implement and compare **Ensemble Learning methods**:
+
+✅ Covers:
+
+* **Bagging** (with Decision Trees)
+* **Boosting** (AdaBoost)
+* **Random Forest**
+* Trains on any CSV
+* Evaluates with **accuracy**, **confusion matrix**, and **classification report**
+* Works for **binary or multi-class classification**
+
+---
+
+## ✅ WEEK 12: Ensemble Learning (Bagging, Boosting, Random Forest)
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import BaggingClassifier, AdaBoostClassifier, RandomForestClassifier
+
+# Step 1: Load dataset
+filename = "ensemble_data.csv"  # Replace with your CSV file
+data = pd.read_csv(filename)
+print("First 5 rows:\n", data.head())
+
+# Step 2: Split features (X) and label (y)
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+
+# Step 3: Encode target if categorical
+if y.dtype == 'object':
+    le = LabelEncoder()
+    y = le.fit_transform(y)
+
+# Step 4: Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Step 5: Define base model
+base_model = DecisionTreeClassifier(random_state=42)
+
+# Step 6: Initialize Ensemble Models
+models = {
+    "Bagging": BaggingClassifier(base_estimator=base_model, n_estimators=50, random_state=42),
+    "Boosting (AdaBoost)": AdaBoostClassifier(base_estimator=base_model, n_estimators=50, random_state=42),
+    "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42)
+}
+
+# Step 7: Train and Evaluate Each Model
+for name, model in models.items():
+    print(f"\n🔸 {name} 🔸")
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    
+    acc = accuracy_score(y_test, y_pred)
+    print(f"✅ Accuracy: {acc * 100:.2f}%")
+    
+    print("🧾 Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+    print("📄 Classification Report:\n", classification_report(y_test, y_pred))
+```
+
+---
+
+### 📁 Sample `ensemble_data.csv` Format (binary or multi-class)
+
+```
+feature1,feature2,feature3,class
+2.3,3.1,1.2,A
+1.8,2.5,2.1,B
+2.0,3.0,2.0,A
+...
+```
+
+> Last column must be the target class (binary or multiple classes allowed).
+
+---
+
+### 🧠 Ensemble Method Overview:
+
+| Method            | Concept                                             |
+| ----------------- | --------------------------------------------------- |
+| **Bagging**       | Trains multiple models on random subsets (parallel) |
+| **Boosting**      | Trains models sequentially, correcting prior errors |
+| **Random Forest** | Bagging + Random feature selection at split points  |
+
+---
+
+### 🔧 Install Required Libraries
+
+```bash
+pip install pandas scikit-learn
+```
+
+---
+
+### ✅ How to Run
+
+1. Place your CSV file in the same folder.
+2. Run the script in a terminal:
+
+```bash
+python ensemble_comparison.py
+```
+
+---
+
+Would you like a sample `ensemble_data.csv` to test the script right away?

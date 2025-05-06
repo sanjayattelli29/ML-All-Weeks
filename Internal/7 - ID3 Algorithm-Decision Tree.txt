@@ -1,0 +1,158 @@
+Here is a **complete, exam-ready Python program** to implement a **Decision Tree using the ID3 algorithm**, and classify a **new sample** using it. This code is **fully detailed**, well-commented, and **works with any CSV** where:
+
+* Features are **categorical** (text like 'Sunny', 'Rainy', etc.).
+* Target class is also **categorical** (like 'Yes' or 'No').
+
+---
+
+### ✅ WEEK 7: Full Python Code for Decision Tree (ID3 Algorithm)
+
+```python
+import pandas as pd
+import math
+from collections import Counter
+
+# --- Step 1: Calculate Entropy ---
+def entropy(target_col):
+    elements, counts = np.unique(target_col, return_counts=True)
+    ent = 0
+    for i in range(len(elements)):
+        prob = counts[i] / np.sum(counts)
+        ent -= prob * math.log2(prob)
+    return ent
+
+# --- Step 2: Calculate Info Gain for a Feature ---
+def info_gain(data, split_attribute_name, target_name="class"):
+    total_entropy = entropy(data[target_name])
+    values, counts = np.unique(data[split_attribute_name], return_counts=True)
+    
+    weighted_entropy = 0
+    for i in range(len(values)):
+        subset = data[data[split_attribute_name] == values[i]]
+        prob = counts[i] / np.sum(counts)
+        weighted_entropy += prob * entropy(subset[target_name])
+    
+    info_gain = total_entropy - weighted_entropy
+    return info_gain
+
+# --- Step 3: ID3 Algorithm ---
+def id3(data, original_data, features, target_attribute_name="class", parent_node_class=None):
+    target_values = data[target_attribute_name]
+    
+    # If all target_values have same class, return that class
+    if len(np.unique(target_values)) <= 1:
+        return np.unique(target_values)[0]
+    
+    # If dataset is empty, return the most common class in original_data
+    elif len(data) == 0:
+        return np.unique(original_data[target_attribute_name])[np.argmax(np.unique(original_data[target_attribute_name], return_counts=True)[1])]
+    
+    # If no more features, return parent node class
+    elif len(features) == 0:
+        return parent_node_class
+    
+    # Else, grow the tree
+    else:
+        # Get most common class of current node
+        parent_node_class = np.unique(target_values)[np.argmax(np.unique(target_values, return_counts=True)[1])]
+        
+        # Choose best feature to split on
+        item_values = [info_gain(data, feature, target_attribute_name) for feature in features]
+        best_feature_index = np.argmax(item_values)
+        best_feature = features[best_feature_index]
+        
+        # Create tree root
+        tree = {best_feature: {}}
+        
+        # Remove best feature from features list
+        features = [f for f in features if f != best_feature]
+        
+        # Grow branches for each value of best feature
+        for value in np.unique(data[best_feature]):
+            sub_data = data[data[best_feature] == value]
+            subtree = id3(sub_data, original_data, features, target_attribute_name, parent_node_class)
+            tree[best_feature][value] = subtree
+        
+        return tree
+
+# --- Step 4: Predict Function ---
+def predict(query, tree, default=None):
+    for key in list(query.keys()):
+        if key in tree:
+            try:
+                result = tree[key][query[key]]
+            except:
+                return default
+            
+            if isinstance(result, dict):
+                return predict(query, result)
+            else:
+                return result
+
+# --- Step 5: Load Data and Run ID3 ---
+import numpy as np
+
+# Load dataset (replace 'dataset.csv' with your file)
+df = pd.read_csv("dataset.csv")
+
+# Target column should be named "class"
+features = df.columns[:-1].tolist()
+target = df.columns[-1]
+
+# Build the tree
+tree = id3(df, df, features, target)
+print("\nGenerated Decision Tree:")
+print(tree)
+
+# --- Step 6: Classify a New Sample ---
+# Example: If your dataset has features like Outlook, Temperature, Humidity, Wind
+new_sample = {'Outlook': 'Sunny', 'Temperature': 'Cool', 'Humidity': 'High', 'Wind': 'Strong'}
+
+prediction = predict(new_sample, tree)
+print("\nPrediction for new sample:")
+print(f"Sample: {new_sample}")
+print(f"Predicted Class: {prediction}")
+```
+
+---
+
+### ✅ Sample `dataset.csv` Format (for testing):
+
+```
+Outlook,Temperature,Humidity,Wind,class
+Sunny,Hot,High,Weak,No
+Sunny,Hot,High,Strong,No
+Overcast,Hot,High,Weak,Yes
+Rain,Mild,High,Weak,Yes
+Rain,Cool,Normal,Weak,Yes
+Rain,Cool,Normal,Strong,No
+Overcast,Cool,Normal,Strong,Yes
+Sunny,Mild,High,Weak,No
+Sunny,Cool,Normal,Weak,Yes
+Rain,Mild,Normal,Weak,Yes
+Sunny,Mild,Normal,Strong,Yes
+Overcast,Mild,High,Strong,Yes
+Overcast,Hot,Normal,Weak,Yes
+Rain,Mild,High,Strong,No
+```
+
+---
+
+### ▶️ How to Run
+
+1. Place this script and `dataset.csv` in the same folder.
+2. Install any missing libraries:
+
+```bash
+pip install pandas numpy
+```
+
+3. Run with:
+
+```bash
+python id3_decision_tree.py
+```
+
+---
+
+Would you like a downloadable version of `dataset.csv` or the ability to use numeric attributes as well?

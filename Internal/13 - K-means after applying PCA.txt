@@ -1,0 +1,63 @@
+✅ PART I: K-Means Clustering after PCA, with Elbow Method to find optimal K
+This works for any numeric CSV file with labeled or unlabeled data.
+
+🧪 Required Libraries:
+bash
+Copy
+Edit
+pip install pandas scikit-learn matplotlib seaborn scipy
+✅ PART I: K-Means with PCA + Elbow Method
+python
+Copy
+Edit
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+# Step 1: Load data
+filename = "clustering_data.csv"  # Replace with your file
+data = pd.read_csv(filename)
+print("First 5 rows:\n", data.head())
+
+# Step 2: Feature scaling
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(data)
+
+# Step 3: Apply PCA to reduce dimensionality (2D for visualization)
+pca = PCA(n_components=2)
+pca_data = pca.fit_transform(scaled_data)
+print(f"PCA reduced shape: {pca_data.shape}")
+
+# Step 4: Elbow Method to find optimal K
+wcss = []
+K_range = range(1, 11)
+for k in K_range:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(pca_data)
+    wcss.append(kmeans.inertia_)
+
+# Step 5: Plot Elbow Curve
+plt.figure(figsize=(6,4))
+plt.plot(K_range, wcss, marker='o')
+plt.title("Elbow Method for Optimal K")
+plt.xlabel("Number of Clusters (K)")
+plt.ylabel("Within-Cluster Sum of Squares (WCSS)")
+plt.grid(True)
+plt.show()
+
+# Step 6: Choose K (you can also use silhouette_score or visual inspection)
+optimal_k = 3  # Example, based on elbow plot
+kmeans = KMeans(n_clusters=optimal_k, random_state=42)
+cluster_labels = kmeans.fit_predict(pca_data)
+
+# Step 7: Visualize clusters
+plt.figure(figsize=(6,5))
+plt.scatter(pca_data[:,0], pca_data[:,1], c=cluster_labels, cmap='viridis', s=50)
+plt.title(f"K-Means Clustering with K={optimal_k}")
+plt.xlabel("PCA 1")
+plt.ylabel("PCA 2")
+plt.grid(True)
+plt.show()

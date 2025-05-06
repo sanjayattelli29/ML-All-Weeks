@@ -1,0 +1,119 @@
+Here is the **complete Week 11 code** to implement **Regularized Logistic Regression** using a sample training dataset from a CSV file.
+
+---
+
+✅ This code includes:
+
+* Reading the CSV file
+* Encoding categorical labels
+* Using `LogisticRegression` with **L2 regularization (Ridge by default)**
+* Computing accuracy
+* Optional visualization if 2D features
+
+---
+
+## ✅ WEEK 11: Regularized Logistic Regression in Python (Full Code)
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Load dataset
+filename = "binary_data.csv"  # Replace with your CSV file
+data = pd.read_csv(filename)
+print("First 5 rows:\n", data.head())
+
+# Step 2: Separate features (X) and label (y)
+X = data.iloc[:, :-1]  # All columns except last = Features
+y = data.iloc[:, -1]   # Last column = Target
+
+# Step 3: Encode target if it's categorical
+if y.dtype == 'object':
+    le = LabelEncoder()
+    y = le.fit_transform(y)
+
+# Step 4: Check for binary classification
+if len(set(y)) != 2:
+    raise ValueError("This script supports only binary classification problems.")
+
+# Step 5: Feature Scaling (important for regularization)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Step 6: Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
+
+# Step 7: Regularized Logistic Regression (L2 is default)
+model = LogisticRegression(penalty='l2', C=1.0, solver='lbfgs')  # Lower C means stronger regularization
+model.fit(X_train, y_train)
+
+# Step 8: Predictions
+y_pred = model.predict(X_test)
+
+# Step 9: Accuracy and Evaluation
+accuracy = accuracy_score(y_test, y_pred)
+print(f"\n✅ Model Accuracy: {accuracy * 100:.2f}%\n")
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Step 10: Visualization (if 2D)
+if X.shape[1] == 2:
+    plt.figure(figsize=(7,5))
+    plt.title("Decision Boundary (2D)")
+    
+    # Create a mesh grid
+    x_min, x_max = X_scaled[:, 0].min() - 1, X_scaled[:, 0].max() + 1
+    y_min, y_max = X_scaled[:, 1].min() - 1, X_scaled[:, 1].max() + 1
+    xx, yy = np.meshgrid(
+        np.linspace(x_min, x_max, 500),
+        np.linspace(y_min, y_max, 500)
+    )
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    plt.contourf(xx, yy, Z, cmap='coolwarm', alpha=0.2)
+
+    # Plot data points
+    sns.scatterplot(x=X_scaled[:, 0], y=X_scaled[:, 1], hue=y, palette="coolwarm", edgecolor='k')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.show()
+```
+
+---
+
+### 🧪 Sample `binary_data.csv` Format:
+
+```
+feature1,feature2,label
+2.3,3.1,Yes
+1.8,2.5,No
+2.0,3.0,Yes
+...
+```
+
+The last column must be binary (Yes/No, or 0/1).
+
+---
+
+### 🔧 Notes on Regularization:
+
+* `penalty='l2'` → L2 Regularization (Ridge)
+* `C=1.0` → Inverse of regularization strength (lower = stronger regularization)
+* You can change to `penalty='l1'` and use `solver='liblinear'` for L1 (Lasso)
+
+---
+
+### 📦 Install Required Libraries:
+
+```bash
+pip install pandas scikit-learn matplotlib seaborn
+```
+
+---
+
+Would you like a sample CSV to test this code right away?
