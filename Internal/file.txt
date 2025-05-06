@@ -1,44 +1,58 @@
-cursor download : 
 
 
 
 week 5 : Linear Regression on CSV Data
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/5%20-Linear%20Regression%20on%20CSV%20Data.txt
 
 
 week 6 : KNN CLASSIFIER (with prediction report)
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/6%20-%20KNN%20CLASSIFIER%20(with%20prediction%20report).txt
 
 
 week 7 : ID3 Algorithm-Decision Tree
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/7%20-%20ID3%20Algorithm-Decision%20Tree.txt
 
 week 8 : feature selection and extraction techniques (LDA & PCA) using Python.
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/8%20-%20feature%20selection%20and%20extraction%20techniques.txt
 
 WEEK 9: Naive Bayes Classifier (Full Code with Accuracy)
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/9%20-%20Naive%20Bayes%20Classifier.txt
 
 Week 10 : complete Python program to implement Support Vector Machine (SVM) for binary classification using a CSV file.
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/10%20-%20Support%20Vector%20Machine%20(SVM).txt
 
 Week 11 : code to implement Regularized Logistic Regression using a sample training dataset from a CSV file.
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/11%20-%20Regularized%20Logistic%20Regression.txt
 
 WEEK 12: Ensemble Learning (Bagging, Boosting, Random Forest)
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/12%20-%20Ensemble%20Learning.txt
 
 
 WEEK 13:
 i. Write a program to perform Clustering using K-means after applying PCA and Determining the value of K using the Elbow method.
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/13%20-%20K-means%20after%20applying%20PCA.txt
 
 
 ii. Write a program to build a model to perform hierarchical clustering.like i need in detailed in depth please
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/13%20-%20hierarchical%20clustering.txt
 
 Week13_AB.ipynb
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/Week13_AB.ipynb
 
 
 
 WEEK 14:
 i. Write a program to implement the Perceptron Learning algorithm for binary classification on the iris dataset.
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/14-Perceptron%20Learning%20algorithm.txt
 
 ii. Write a program to demonstrate a simple neural network that has one input layer,one hidden layer, and one output layer, which includes the forward and backward propagation algorithms for training the neural network
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/14-simple%20neural%20network.txt
 
 Week_14A.ipynb
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/Week_14A.ipynb
 
 
 viva Q&a
 
+https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/viva.txt
 
