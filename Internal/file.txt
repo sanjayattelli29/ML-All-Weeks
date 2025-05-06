@@ -1,5 +1,5 @@
 
-
+curl -o notes.txt https://tinyurl.com/sanjayml
 
 week 5 : Linear Regression on CSV Data
 https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/5%20-Linear%20Regression%20on%20CSV%20Data.txt
