@@ -1,0 +1,277 @@
+
+
+### **1. List any five basic HDFS commands. Describe their usage.**
+
+**Step 1: Open your terminal and switch to Hadoop user.**
+
+```bash
+su - hadoop
+```
+
+#### **a. Create a directory in HDFS**
+
+```bash
+hdfs dfs -mkdir /mydata
+```
+
+*Creates a folder named `mydata` in HDFS root.*
+
+#### **b. Upload a file from local to HDFS**
+
+```bash
+hdfs dfs -put sample.txt /mydata/
+```
+
+*Uploads `sample.txt` from local file system to `/mydata/` in HDFS.*
+
+#### **c. Display contents of a file**
+
+```bash
+hdfs dfs -cat /mydata/sample.txt
+```
+
+*Displays the contents of the uploaded file.*
+
+#### **d. List files/directories**
+
+```bash
+hdfs dfs -ls /mydata
+```
+
+*Lists all files in the `/mydata` directory.*
+
+#### **e. Delete a file from HDFS**
+
+```bash
+hdfs dfs -rm /mydata/sample.txt
+```
+
+*Deletes the `sample.txt` from HDFS.*
+
+---
+
+### **2. List commands to create a DB and collection in MongoDB**
+
+**Step-by-step:**
+
+```bash
+mongo
+```
+
+```javascript
+use mydb            // creates and switches to a DB
+db.createCollection("students")
+```
+
+*This creates a database named `mydb` and a collection called `students`.*
+
+---
+
+### **3. Command to display all DBs in MongoDB**
+
+```javascript
+show dbs
+```
+
+*Lists all existing databases in MongoDB.*
+
+---
+
+### **4. Find the year-wise max temperature using MapReduce (Weather Dataset)**
+
+**Assume: `input/weather.txt` format**:
+
+```
+1949-10-01 23
+1949-10-02 19
+...
+```
+
+**Mapper: `MaxTempMapper.java`**
+
+```java
+public class MaxTempMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+        String[] line = value.toString().split(" ");
+        String year = line[0].split("-")[0];
+        int temp = Integer.parseInt(line[1]);
+        context.write(new Text(year), new IntWritable(temp));
+    }
+}
+```
+
+**Reducer: `MaxTempReducer.java`**
+
+```java
+public class MaxTempReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        int maxTemp = Integer.MIN_VALUE;
+        for (IntWritable val : values) {
+            maxTemp = Math.max(maxTemp, val.get());
+        }
+        context.write(key, new IntWritable(maxTemp));
+    }
+}
+```
+
+**Compile and run:**
+
+```bash
+hadoop com.sun.tools.javac.Main MaxTempMapper.java MaxTempReducer.java
+jar cf maxtemp.jar MaxTempMapper.class MaxTempReducer.class
+hadoop jar maxtemp.jar MaxTempDriver input/weather.txt output/
+```
+
+---
+
+### **5. Compute and display word count of any text document using MapReduce**
+
+**Mapper: `WordCountMapper.java`**
+
+```java
+public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
+
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        String[] words = value.toString().split("\\s+");
+        for (String w : words) {
+            word.set(w);
+            context.write(word, one);
+        }
+    }
+}
+```
+
+**Reducer: `WordCountReducer.java`**
+
+```java
+public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        int sum = 0;
+        for (IntWritable val : values) {
+            sum += val.get();
+        }
+        context.write(key, new IntWritable(sum));
+    }
+}
+```
+
+**Compile and execute similarly** as Q4.
+
+---
+
+### **6. Display word count using Hive**
+
+**Step-by-step:**
+
+1. Open Hive shell:
+
+```bash
+hive
+```
+
+2. Create table and load data:
+
+```sql
+CREATE TABLE words (line STRING);
+LOAD DATA LOCAL INPATH '/home/user/sample.txt' INTO TABLE words;
+```
+
+3. Word count query:
+
+```sql
+SELECT word, COUNT(*) FROM (
+  SELECT explode(split(line, ' ')) as word FROM words
+) temp
+GROUP BY word;
+```
+
+---
+
+### **7. Explore HiveQL on employee table**
+
+```sql
+CREATE TABLE employee (id INT, name STRING, dept STRING, salary FLOAT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH '/home/user/emp.csv' INTO TABLE employee;
+
+SELECT * FROM employee;
+SELECT dept, AVG(salary) FROM employee GROUP BY dept;
+SELECT * FROM employee WHERE salary > 50000;
+```
+
+---
+
+### **8. Write a program to explore commands in MongoDB**
+
+```javascript
+// Connect using mongo shell
+use testdb
+
+db.createCollection("items")
+
+db.items.insertOne({ name: "Pen", price: 10 })
+db.items.insertMany([
+  { name: "Book", price: 50 },
+  { name: "Pencil", price: 5 }
+])
+
+db.items.find()
+db.items.updateOne({ name: "Pen" }, { $set: { price: 12 } })
+db.items.deleteOne({ name: "Book" })
+```
+
+---
+
+### **9. Project: Create `salesdb`, insert 10 sales records & aggregate total by month**
+
+```javascript
+use salesdb
+
+db.sales.insertMany([
+  { item: "Laptop", amount: 50000, date: new Date("2024-01-05") },
+  { item: "Mouse", amount: 700, date: new Date("2024-01-10") },
+  { item: "Keyboard", amount: 1500, date: new Date("2024-02-11") },
+  { item: "Monitor", amount: 10000, date: new Date("2024-02-15") },
+  { item: "Tablet", amount: 25000, date: new Date("2024-03-20") },
+  { item: "Headphones", amount: 3000, date: new Date("2024-03-22") },
+  { item: "Phone", amount: 45000, date: new Date("2024-04-01") },
+  { item: "Charger", amount: 1500, date: new Date("2024-04-05") },
+  { item: "Camera", amount: 60000, date: new Date("2024-05-07") },
+  { item: "Tripod", amount: 2000, date: new Date("2024-05-15") }
+])
+
+db.sales.aggregate([
+  {
+    $group: {
+      _id: { month: { $month: "$date" } },
+      totalSales: { $sum: "$amount" }
+    }
+  },
+  { $sort: { "_id.month": 1 } }
+])
+```
+
+---
+
+### **10. Construct MongoDB database `library`, collection of books**
+
+```javascript
+use library
+
+db.books.insertMany([
+  { title: "Let Us C", author: "Yashwant Kanetkar", year: 2001 },
+  { title: "Introduction to Algorithms", author: "CLRS", year: 2009 },
+  { title: "Python Crash Course", author: "Eric Matthes", year: 2015 },
+  { title: "MongoDB: The Definitive Guide", author: "Kristina Chodorow", year: 2013 },
+  { title: "Clean Code", author: "Robert C. Martin", year: 2008 }
+])
+
+db.books.find()
+```
+
+---
+
+Would you like this exported to a printable PDF or formatted for Notion/Word document?
