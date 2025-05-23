@@ -60,3 +60,81 @@ viva Q&a
 
 https://raw.githubusercontent.com/sanjayattelli29/ML-All-Weeks/master/Internal/viva.txt
 
+
+
+week 14 
+from random import seed, random
+import numpy as np
+
+def init_net(n_in, n_hid, n_out):
+    net = []
+    net.append([{'w':[random() for _ in range(n_in + 1)]} for _ in range(n_hid)])
+    net.append([{'w':[random() for _ in range(n_hid + 1)]} for _ in range(n_out)])
+    return net
+
+def act(w, x):
+    a = w[-1]
+    for i in range(len(w)-1): a += w[i] * x[i]
+    return a
+
+def sig(x): return 1 / (1 + np.exp(-x))
+def dsig(o): return o * (1 - o)
+
+def fwd_prop(net, row):
+    inp = row
+    for layer in net:
+        out = []
+        for n in layer:
+            a = act(n['w'], inp)
+            n['out'] = sig(a)
+            out.append(n['out'])
+        inp = out
+    return inp
+
+def bwd_prop(net, exp):
+    for i in reversed(range(len(net))):
+        layer = net[i]
+        err = []
+        if i != len(net)-1:
+            for j in range(len(layer)):
+                e = sum(n['w'][j] * n['delta'] for n in net[i+1])
+                err.append(e)
+        else:
+            for j in range(len(layer)):
+                n = layer[j]
+                err.append(n['out'] - exp[j])
+        for j in range(len(layer)):
+            n = layer[j]
+            n['delta'] = err[j] * dsig(n['out'])
+
+def upd_wts(net, row, lr):
+    for i in range(len(net)):
+        inp = row[:-1] if i == 0 else [n['out'] for n in net[i-1]]
+        for n in net[i]:
+            for j in range(len(inp)):
+                n['w'][j] -= lr * n['delta'] * inp[j]
+            n['w'][-1] -= lr * n['delta']
+
+def train(net, data, lr, epochs, n_out):
+    for ep in range(epochs):
+        s_err = 0
+        for row in data:
+            out = fwd_prop(net, row)
+            exp = [0 for _ in range(n_out)]
+            exp[row[-1]] = 1
+            s_err += sum((exp[i]-out[i])**2 for i in range(len(exp)))
+            bwd_prop(net, exp)
+            upd_wts(net, row, lr)
+        print(f'>epoch={ep}, lrate={lr:.3f}, error={s_err:.3f}')
+
+# --- Main ---
+seed(1)
+data = [
+ [2.78,2.55,0],[1.46,2.36,0],[3.39,4.4,0],[1.38,1.85,0],[3.06,3.0,0],
+ [7.62,2.75,1],[5.33,2.08,1],[6.92,1.77,1],[8.67,-0.24,1],[7.67,3.5,1]
+]
+n_in = len(data[0])-1
+n_out = len(set(r[-1] for r in data))
+net = init_net(n_in, 2, n_out)
+train(net, data, 0.5, 20, n_out)
+for l in net: print(l)
